@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  rainloop:
+    image: youtous/rainloop:latest
+    container_name: rainloop
+    ports:
+      - "8888:8888"
+    volumes:
+      - /mnt/docker/rainloop:/rainloop/data
