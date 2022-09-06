@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  nextcloud:
+  db:
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - ~/mariadb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=XXXXXX
+      - MYSQL_USER=nextcloud
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_PASSWORD=XXXXXX
+      - TZ=Europe/Paris
+        #command: ['--innodb_read_only_compressed=OFF'] # see https://help.nextcloud.com/t/update-to-next-cloud-21-0-2-has-get-an-error/117028/16
+
+  nextcloud:  
+    image: nextcloud:23
+    container_name: nextcloud
+    ports:
+      - "8081:80"
+    links:
+      - db
+    volumes:
+      - ~/nextcloud/config:/var/www/html/config
+      - ~/nextcloud/data:/var/www/html/data
+    restart: always
